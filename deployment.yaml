@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-blue         # deployment 의 이름
+spec:                 # 여기부터 rs
+  replicas: 3         # Pod 를 3개 띄우겠다! (min)
+  selector:
+    matchLabels:
+      color: blue
+  template:           # 여기부터 Pod
+    metadata:
+      name: mynginx-blue   # pod 의 이름
+      labels:
+        color: blue
+    spec:             # 여기부터 컨테이너
+      containers:
+      - name: mynginxctn-blue    # 컨테이너의 이름
+        image: brian24/kakaodev:blue
+        resources:
+          limits:
+            memory: "32Mi"
+            cpu: "200m"     # 1000m 이 cpu 1개를 의미, 500m = 0.5vcpus
+        ports:
+        - containerPort: 80
